@@ -7,21 +7,21 @@ score = 0
 
 
 #Functions called when keys are pressed
-def up():
+def up() :
     mouse.forward(10)
     checkbound()
 
-def left():
+def left() :
     mouse.left(45)
 
-def right():
+def right() :
     mouse.right(45)
 
-def back():
+def back() :
     mouse.backward(10)
     checkbound()
 
-def quitTurtles():
+def quitTurtles() :
     window.bye()
 
 #prevents the mouse from leaving the square set by box size
@@ -41,8 +41,8 @@ window = turtle.Screen()
 mouse = turtle.Turtle()
 cat = turtle.Turtle()
 mouse.penup()
+cat.penup()
 mouse.goto(100, 100)
-mouse.pendown()
 
 #add key listeners
 window.onkeypress(up, "Up")
@@ -53,12 +53,14 @@ window.onkeypress(quitTurtles, "Escape")
 
 difficulty = window.numinput("Difficulty", "Enter difficulty", minval=1, maxval=5)
 
+window.listen()
+
 while not cauhgt:
     cat.setheading(cat.towards(mouse))
     cat.forward(8+difficulty)
     score = score + 1
     if cat.distance(mouse) < 5:
-        cauhgt = False
+        cauhgt = True
     time.sleep(0.2-(0.01*difficulty))
 
 window.bye()
