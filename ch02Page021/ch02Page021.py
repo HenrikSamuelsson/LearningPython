@@ -2,7 +2,7 @@ import turtle
 import time
 
 boxsize = 200
-cauhgt = False
+caught = False
 score = 0
 
 
@@ -31,18 +31,38 @@ def checkbound():
         mouse.goto(boxsize, mouse.ycor())
     if mouse.xcor() < -boxsize:
         mouse.goto(-boxsize, mouse.ycor())
-    if mouse.xcor() > boxsize:
-        mouse.goto(mouse.xcor, boxsize)
-    if mouse.xcor() < -boxsize:
-        mouse.goto(mouse.xcor, -boxsize)
+    if mouse.ycor() > boxsize:
+        mouse.goto(mouse.xcor(), boxsize)
+    if mouse.ycor() < -boxsize:
+        mouse.goto(mouse.xcor(), -boxsize)
 
-#setup screen
+#create a window two cats and the mouse tha will be in the game
 window = turtle.Screen()
 mouse = turtle.Turtle()
-cat = turtle.Turtle()
+cat1 = turtle.Turtle()
+cat2 = turtle.Turtle()
 mouse.penup()
-cat.penup()
-mouse.goto(100, 100)
+cat1.penup()
+cat2.penup()
+
+#goto corner of playing area
+mouse.penup()
+mouse.goto(-boxsize, -boxsize)
+mouse.pendown()
+
+#draw the borders of the playing area
+for i in range(0, 4):
+    mouse.forward(2*boxsize)
+    mouse.left(90)
+
+mouse.penup()
+
+#set starting positions of the mouse and the cats
+mouse.goto(0, 0)
+cat1.goto(-boxsize, -boxsize)
+cat2.goto(boxsize, boxsize)
+cat1.setheading(cat1.towards(mouse))
+cat2.setheading(cat2.towards(mouse))
 
 #add key listeners
 window.onkeypress(up, "Up")
@@ -55,12 +75,16 @@ difficulty = window.numinput("Difficulty", "Enter difficulty", minval=1, maxval=
 
 window.listen()
 
-while not cauhgt:
-    cat.setheading(cat.towards(mouse))
-    cat.forward(8+difficulty)
+while not caught:
+    cat1.setheading(cat1.towards(mouse))
+    cat1.forward(9+difficulty)
+    cat2.setheading(cat2.towards(mouse))
+    cat2.forward(7+difficulty)
     score = score + 1
-    if cat.distance(mouse) < 5:
-        cauhgt = True
+    if cat1.distance(mouse) < 5:
+        caught = True
+    elif cat2.distance(mouse) < 5:
+        caught = True
     time.sleep(0.2-(0.01*difficulty))
 
 window.bye()
